@@ -1,0 +1,65 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: #3B5286;
+}
+
+body{
+
+
+}
+
+.box-input{
+    width: 350px;
+    margin: 0 auto;
+    text-align: left;
+    margin-top: 50px;
+    padding: 30px;
+    border: 1px solid #A69647;
+    border-radius: 15px;
+}
+
+.box-input h1{
+    text-transform: uppercase;
+    font-weight: bolder;
+    margin-bottom: 25px;
+    font-size: 35px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #A69647;
+}
+
+.textbox{
+    width: 100%;
+    overflow: hidden;
+    font-size: 25px;
+}
+
+.textbox i{
+    font-size: 20px;
+    width: 20px;
+    vertical-align: middle;
+}
+
+.textbox input{
+    margin-left: 15px;
+    width: 300px;
+    border: none;
+    outline: none;
+    background:none;
+    border-bottom: 1px solid #3B5286;
+    padding-bottom: 5px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+#email:invalid{
+    border-bottom: 3px solid #f02c25;
+}
+#btn{font-size: 20px;
+    margin-top: 20px;
+    text-align: center;
+    height: 30px;
+    width: 150px;
+
+}

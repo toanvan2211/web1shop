@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <title>Document</title>
+</head>
+<body>
+    <div class="box-input">
+        <h1 title="">Register</h1>
+        <form action="" method="">
+            <div class="textbox">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" placeholder="User Name">
+            </div>
+            <div class="textbox">
+                <i class="fas fa-key"></i>
+                <input type="password" id="pass" placeholder="Password">                
+            </div>
+            <div class="textbox">
+                <i class="far fa-envelope"></i>
+                <input type="email" id="email" placeholder="Email">
+            </div>
+            <div class="textbox">
+                <i class="fas fa-mobile-alt"></i>
+                <input type="text" id="phone" placeholder="Phone">
+            </div>
+            <div class="textbox">
+                <i class="far fa-address-card"></i>
+                <input type="text" id="address" placeholder="Address">
+            </div>
+            <input type="button" id="btn" value="Click" onclick="loiphone()">
+
+            
+            <script>
+                function loiphone(){
+                    var t = document.getElementById("username").value;
+                    var reg_phone = /^[a-z0-9_-]{3,16}$/;
+                    var my = reg_phone.exec(t);
+                    if(!my){
+                        document.getElementById("username").style.borderBottomColor ="#f02c25";
+                        document.getElementById("username").style.borderBottomWidth ="3px"
+                    }
+                    else{
+                        document.getElementById("username").style.borderBottomColor ="#3B5286";
+                        document.getElementById("username").style.borderBottomWidth ="1px"
+                    }
+                }
+            </script>
+        </form>
+    </div>
+</body>
+</html>
