@@ -10,12 +10,20 @@
 <body>
     <?php
         session_start();
-        include "admin/php/connect.php";
-        $queryCategory = "select * from danhmuc";
-        $dataCategory = $db->query($queryCategory);
-        $categoryId="";     
         $arrayProduct = array();
         $arrayProductAmmount = array();
+        include "admin/php/connect.php";
+
+        if(isset($_GET['categoryId'])){
+            $categoryId = $_GET['categoryId'];
+
+            $queryCategory = "select * from danhmuc";
+            $queryCategory1 = "select * from danhmuc where categoryId = '$categoryId'";
+            $dataCategory = $db->query($queryCategory);
+            $dataCategory1 = $db->query($queryCategory1);
+            $categoryId="";
+            $categoryName="";
+        }
     ?>
     <div class="containter">
         <div class="header">            
@@ -41,7 +49,6 @@
                 ?>
                 <li><a style="color:red;" href="cart.php">Giỏ hàng</a></li>
                 <?php
-                    
                     $checkLogin="";
                     if($_SESSION['loggedin'] == false){
                         echo '<li><a style="color:green;" href="admin/login.php">Đăng nhập</a></li>';
@@ -54,9 +61,7 @@
         </div>
         <div class="content">
             <?php
-                $queryCategory = "select * from danhmuc";
-                $dataCategory = $db->query($queryCategory);
-                while($rowCategory1=$dataCategory->fetch_assoc()):
+                while($rowCategory1=$dataCategory1->fetch_assoc()):
             ?>
             <div class="module-item">
                 <h2 class="module-title"><?php echo $rowCategory1["categoryName"] ?></h2>

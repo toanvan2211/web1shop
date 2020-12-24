@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="abc">
-    <title>Document</title>
+    <title>Navosi Shop</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php
+        session_start();
+        $arrayProduct = array();
+        $arrayProductAmmount = array();
 
         include "admin/php/connect.php";
         $queryCategory = "select * from danhmuc";
@@ -39,11 +42,21 @@
                 <?php
                     while($rowCategory=$dataCategory->fetch_assoc()):
                 ?>
-                    <li><a href=""><?php echo $rowCategory["categoryName"] ?></a></li>
+                    <li><a href="categoryshop.php?categoryId=<?php echo $rowCategory["categoryId"]?>"><?php echo $rowCategory["categoryName"] ?></a></li>
                 <?php
                     endwhile;
                 ?>
-                <li><a style="color:red;" href="index.php">Giỏ hàng</a></li>
+                <li><a style="color:red;" href="cart.php">Giỏ hàng</a></li>
+                <?php
+                    
+                    $checkLogin="";
+                    if($_SESSION['loggedin'] == false){
+                        echo '<li><a style="color:green;" href="admin/login.php">Đăng nhập</a></li>';
+                    }
+                    else{
+                        echo '<li><a style="color:green;" href="admin/logout.php">Đăng xuất</a></li>';
+                    }
+                ?>
             </ul>
         </div>       
         <div class="content">
@@ -54,7 +67,7 @@
                 <h2 class="product-name-detail"><?php echo $rowProduct['productName']?></h2>
                 <p class="price-detail"><?php echo number_format($rowProduct['productPrice'])?> VND</p>
                 <p class="description"><?php echo $rowProduct['productDes']?></p>
-                <a href="" class="buy-detail">Đặt mua</a>
+                <a href="cart.php?productId=<?php echo $rowProduct["productId"]?>" class="buy-detail">Đặt mua</a>
             </div>
         </div>
         <div class="footer">
