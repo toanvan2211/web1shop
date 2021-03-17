@@ -351,3 +351,10 @@ td {
   font-weight: bold;
   background-color: #3b5286;
 }
+.notiCart {
+  margin-top: 10px;
+}
+
+.right-cart a {
+  text-decoration: none;
+}

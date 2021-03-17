@@ -68,26 +68,21 @@
                                                 $username = mysqli_real_escape_string($db,$_POST['username']);
                                                 $password = mysqli_real_escape_string($db,md5($_POST['password'])); 
                                                 
-                                                $sql = "SELECT username FROM nguoidung WHERE username = '$username' and password = '$password'";
+                                                $sql = "SELECT * FROM nguoidung WHERE username = '$username' and password = '$password'";
                                                 $result = mysqli_query($db,$sql);
                                                 $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-                                                $active = isset($row['active']);
-                                                
                                                 $count = mysqli_num_rows($result);
-                                                    
+                                                
                                                 if($count == 1) {
                                                     $_SESSION['login_user'] = $username;
                                                     $_SESSION['loggedin'] = true;
                                                     $categoryName="";
-                                                    $arrayProduct = array();
-                                                    $arrayProductAmmount = array();
-                                                    $_SESSION['arrayProduct']=$arrayProduct;
-                                                    $_SESSION['arrayProductAmmount']=$arrayProductAmmount;
-                                                    $permission=isset($row['permission']);
+                                                    $permission=$row["permission"];
                                                     if($permission==1)    
                                                         header("location: user-control.php");
-                                                    else
+                                                    else{
                                                         header("location: ../index.php");                                                        
+                                                    }
                                                 }else {
                                                     $error = "Sai tên tài khoản hoặc mật khẩu";
                                                     echo "<p>$error</p>";

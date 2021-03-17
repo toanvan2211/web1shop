@@ -9,7 +9,8 @@
 </head>
 <body>
     <?php
-        session_start();                    
+        session_start();
+        $totalCost = 0;           
         $arrayProduct = array();
         $arrayProductAmmount = array();
         include "admin/php/connect.php";
@@ -18,6 +19,14 @@
         $categoryId="";
         $categoryName="";
         $productIdToAdd = "";
+
+        if(!isset($_SESSION['arrayProduct'])){
+            $arrayProduct = array();
+            $arrayProductAmmount = array();
+            $_SESSION['arrayProduct']=$arrayProduct;
+            $_SESSION['arrayProductAmmount']=$arrayProductAmmount;
+        }
+
         $arrayProduct = $_SESSION['arrayProduct'];
         $arrayProductAmmount = $_SESSION['arrayProductAmmount'];
         if(isset($_GET['productId'])){
@@ -34,6 +43,7 @@
                 $_SESSION['arrayProduct']= $arrayProduct;
                 $_SESSION['arrayProductAmmount']= $arrayProductAmmount;
             }
+            header("location: cart.php"); 
         }
 
     ?>
@@ -75,7 +85,7 @@
         <div class="content">
             <div class="left-cart">
                 <h2>Giỏ hàng của bạn</h2>
-                <table>
+                <table id="myTable">
                     <tr>
                         <th>STT</th>
                         <th>Mã sản phẩm</th>
@@ -88,32 +98,31 @@
                     
                     <?php
                         foreach($_SESSION['arrayProduct'] as $key=>$value){
-
-;
                             
                             $productAmount = $arrayProductAmmount[$key];    
-
+                            
                             $queryCartProduct = "select * from sanpham where productId = '$value'";
                             $dataCartProduct = $db->query($queryCartProduct);
                             $rowCartProduct = $dataCartProduct->fetch_assoc();
-
+                            
                             $productName = $rowCartProduct['productName'];
                             $productPrice = $rowCartProduct['productPrice'];
                             $productType = $rowCartProduct['productType'];
-
+                            
+                            $totalCost += $productPrice * $productAmount;
                             $CartcategoryId = $rowCartProduct['categoryId'];
                             $queryCartCategory = "select * from danhmuc where categoryId = '$CartcategoryId'";
                             $dataCartCategory = $db->query($queryCartCategory);
                             $rowCartCategory = $dataCartCategory->fetch_assoc();
 
                             $productCategoryName = $rowCartCategory['categoryName'];
-
-                            echo "<tr>
-                                    <td>" .$key."</td>                                                                       
+                            $stt =intval($key)+1;
+                            echo "<tr id='myRow'>
+                                    <td>" .$stt."</td>                                                                       
                                     <td>" .$value."</td>
                                     <td>" .$productName."</td>
-                                    <td>" .$productPrice. "</td>
-                                    <td><input value='".$productAmount."' type='number'></td>
+                                    <td id='productPrice'>" .number_format($productPrice). "</td>
+                                    <td><input id='productAmount' value='".$productAmount."' type='number'></td>
                                     <td>" .$productCategoryName."</td>
                                     <td>" .$productType."</td>
                                 </tr>";
@@ -121,22 +130,38 @@
                     ?>
                 </table>
                 <a href="cart.php">
-                    <button id="btn-Order">Cập nhật giỏ hàng</button>
+                    <button id="btn-Order" onclick="updateCart()">Cập nhật giỏ hàng</button>
                 </a>
             </div>
             <div class="right-cart">
-                <p class="total-cost">VND</p>
-                <a href="">
+                <p class="total-cost" id="totalCost"><?php echo number_format($totalCost)?> VND</p>
+                <a href="cart.php?order=1">                    
                     <button id="btn-Order">Đặt hàng</button>
                 </a>
                 <a href="index.php">
                     <button id="btn-Order">Mua tiếp</button>
                 </a>
+                <?php
+                    if(isset($_GET['order'])){
+                        if(!$_SESSION['loggedin']){
+                            echo "<a href='admin/login.php'>Vui lòng đăng nhập!</a>";
+                        }
+                        else if(count($_SESSION['arrayProduct']) == 0){
+                            echo "<p class='notiCart'>Bạn chưa có gì trong giỏ hàng</p>";
+                        }
+                        else{
+                            $_SESSION['arrayProduct']=NULL;
+                            $_SESSION['arrayProductAmmount']=NULL;
+                            echo "<p class='notiCart'>Đặt hàng thành công</p>";
+                        }
+                    }                        
+                ?>
             </div>
         </div>
         <div class="footer">
             <p class="info">date created:12/8/2020 <br>by: toanvan</p>
         </div>
     </div>
+
 </body>
 </html>

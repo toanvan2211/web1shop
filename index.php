@@ -10,6 +10,9 @@
 <body>
     <?php
         session_start();
+        if(!isset($_SESSION['loggedin']))
+            $_SESSION['loggedin']= false;
+        
         include "admin/php/connect.php";
         $queryCategory = "select * from danhmuc";
         $dataCategory = $db->query($queryCategory);
